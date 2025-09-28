@@ -5,8 +5,8 @@ from datetime import datetime
 import json
 from pathlib import Path
 import logging
-
-app = FastMCP("Software Development Support MCP Server")
+from typing import List, Optional
+from enum import Enum
 
 class FileRequest(BaseModel):
     file_path: str
@@ -24,6 +24,33 @@ class WorkLogResponse(BaseModel):
     timestamp: str
     description: str
     success: bool
+
+class TaskStatus(Enum):
+    PENDING = "pending"
+    COMPLETED = "completed"
+
+class Task(BaseModel):
+    id: int
+    title: str
+    status: TaskStatus = TaskStatus.PENDING
+    created_at: str
+    completed_at: Optional[str] = None
+
+class AddTaskRequest(BaseModel):
+    title: str
+
+class CompleteTaskRequest(BaseModel):
+    task_id: int
+
+class TaskResponse(BaseModel):
+    success: bool
+    message: str
+    task: Optional[Task] = None
+
+class TaskListResponse(BaseModel):
+    tasks: List[Task]
+
+app = FastMCP("Software Development Support MCP Server")
 
 @app.tool()
 async def analyze_file(request: FileRequest) -> FileAnalysis:
@@ -130,6 +157,108 @@ async def log_work(work: WorkLog):
         timestamp=current_time,
         description=work.description,
         success=True
+    )
+
+@app.tool()
+async def add_task(request: AddTaskRequest) -> TaskResponse:
+    """Adds a new task to the task list."""
+    tasks_file = "tasks.json"
+    current_time = datetime.now().isoformat()
+    
+    # Load existing tasks or create new list
+    if os.path.exists(tasks_file):
+        with open(tasks_file, 'r') as f:
+            tasks = json.load(f)
+    else:
+        tasks = []
+    
+    # Generate new task ID
+    task_id = len(tasks) + 1
+    
+    # Create new task
+    new_task = {
+        "id": task_id,
+        "title": request.title,
+        "status": TaskStatus.PENDING.value,
+        "created_at": current_time,
+        "completed_at": None
+    }
+    
+    # Add task to list
+    tasks.append(new_task)
+    
+    # Save updated tasks
+    with open(tasks_file, 'w') as f:
+        json.dump(tasks, f, indent=2)
+    
+    return TaskResponse(
+        success=True,
+        message=f"Task '{request.title}' added successfully",
+        task=Task(**new_task)
+    )
+
+@app.tool()
+async def list_tasks() -> TaskListResponse:
+    """Returns a list of all tasks."""
+    tasks_file = "tasks.json"
+    
+    if not os.path.exists(tasks_file):
+        return TaskListResponse(tasks=[])
+    
+    with open(tasks_file, 'r') as f:
+        tasks = json.load(f)
+    
+    return TaskListResponse(
+        tasks=[Task(**task) for task in tasks]
+    )
+
+@app.tool()
+async def complete_task(request: CompleteTaskRequest) -> TaskResponse:
+    """Marks a task as completed."""
+    tasks_file = "tasks.json"
+    current_time = datetime.now().isoformat()
+    
+    if not os.path.exists(tasks_file):
+        return TaskResponse(
+            success=False,
+            message="No tasks found",
+            task=None
+        )
+    
+    with open(tasks_file, 'r') as f:
+        tasks = json.load(f)
+    
+    # Find task by ID
+    task_found = False
+    for task in tasks:
+        if task["id"] == request.task_id:
+            if task["status"] == TaskStatus.COMPLETED.value:
+                return TaskResponse(
+                    success=False,
+                    message="Task already completed",
+                    task=Task(**task)
+                )
+            task["status"] = TaskStatus.COMPLETED.value
+            task["completed_at"] = current_time
+            task_found = True
+            completed_task = task
+            break
+    
+    if not task_found:
+        return TaskResponse(
+            success=False,
+            message=f"Task with ID {request.task_id} not found",
+            task=None
+        )
+    
+    # Save updated tasks
+    with open(tasks_file, 'w') as f:
+        json.dump(tasks, f, indent=2)
+    
+    return TaskResponse(
+        success=True,
+        message=f"Task {request.task_id} marked as completed",
+        task=Task(**completed_task)
     )
 
 if __name__ == "__main__":

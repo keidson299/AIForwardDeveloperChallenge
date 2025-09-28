@@ -34,11 +34,11 @@ access to my preferred AI tool, and my extensive work history with both make it 
 # Step 1: AI Tool
 
 Now to choose an AI tool to utilize through the whole project. While I could use mutliple tools,
-each for a different purpose (ie Claude for code suggestions, CoPilot to connect to the server),
+each for a different purpose (ie Chat-GPT for code suggestions, Claude to connect to the server),
 I believe that using a singular tool throughout will avoid any mistakes that may come from having
 to switch between several tools. So following that principle, I have chosen to user Github
-CoPilot as my AI coding tool for this project. There are a few I reasons I chose it for this
-project:
+CoPilot with Claude Sonnet 3.5 as my AI coding tool for this project. There are a few I reasons I
+chose this setup for the project:
 
 1. It is the tool I am most comfortable using both in terms of total time using, but also with
    understanding its limitations, letting me know when to step in before things go awry
@@ -48,8 +48,8 @@ project:
    generally like to avoid
 
 While there may be some AI tools that have slightly better performance in certain areas, I believe
-these reasons are justification enough for me to select CoPilot on my system. Since its already
-installed and configured, there are no extra steps for this requirement besides using the tool.
+these reasons are justification enough for me to select CoPilot with Claude on my system. Since its
+already installed and configured, there are no extra steps for this requirement besides using the tool.
 
 # Step 2: Git Repository
 
@@ -71,8 +71,8 @@ on https://modelcontextprotocol.io. The website also provides information on the
 architecture, connections, and developer tools I can use.
 
 Once I have a strong enough understanding of MCP, how its used, and how to preoperly build it out
-I can use both CoPilot and the modelcontextprotocol.io site to build the server. The initial code
-and structure I will leave to the code output from CoPilot, however I still feel its important to
+I can use both Claude and the modelcontextprotocol.io site to build the server. The initial code
+and structure I will leave to the code output from Claude, however I still feel its important to
 use the MCP io site as an artifact of truth. That way I can take advantage of the accelerated
 coding provided by the tool, while also being able to catch issues before they spiral out of control
 through referencing the documentation and guides provided on the site.
@@ -82,15 +82,15 @@ the requirements. I will start with the example functionality provided in the CH
 and if I have any further ideas while developing those, I can attempt to include them if there's
 enough time.
 
-Once I have a comfortable amount of functionality built up, I then integrate it into CoPilot such
-that the defined functionality outputs correct and relevant information. There is some leniancy due
-to the hallucinatory nature of LLMs, however, I believe through good and highly specific
+Once I have a comfortable amount of functionality built up, I then integrate it into Claude Desktop
+such that the defined functionality outputs correct and relevant information. There is some leniancy
+due to the hallucinatory nature of LLMs, however, I believe through good and highly specific
 implementation, I can avoid most of that issue.
 
 # Step 3b: Agent Design
 
 Similar to the creation of the MCP Server, I will begin the Agent design by doing research with both
-CoPilot and online resources that I can find. Using these I will develop a strong enough
+Claude and online resources that I can find. Using these I will develop a strong enough
 understanding of Agent design structure and limitations to be able to make between 1-3 agents. And
 also similar to the MCP server step, depending on the time left and any other development that I
 may have to do, I can attempt to design more agents.
