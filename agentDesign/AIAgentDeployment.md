@@ -9,6 +9,7 @@ This document outlines a possible deployment strategy for the ReadabilityGuardia
 This approach matches with the current environment and development tools used to build out the existing mcp server, those mainly being VS Code and Github.
 
 **1. IDE Integration**
+
 VS Code integration provides several key benefits:
 
 - Real-time feedback during development
@@ -17,6 +18,7 @@ VS Code integration provides several key benefits:
 - Native code analysis visualization
 
 **2. CI/CD Integration**
+
 GitHub Actions integration ensures:
 
 - Consistent code quality across all contributions
@@ -27,9 +29,10 @@ GitHub Actions integration ensures:
 ## Implementation Strategy
 
 **1. VS Code Extension**
+
 Create a VS Code extension to host both agents:
 
-```
+```python
 import * as vscode from 'vscode';
 import { ReadabilityGuardian, OptimizationExpert } from './agents';
 import { MCPClient } from './mcp-client';
@@ -60,9 +63,10 @@ export function activate(context: vscode.ExtensionContext) {
 By using a vscode.ExtensionContext, we are able to integrate into VS Code's UI by having the commands available in the Palette. The extension also enables real-time file analysis, and uses a singular client to reduce connection overhead.
 
 **2. Agent Implementation**
+
 Next we create our agent implementation. This is an example of the implementation for the ReadabilityGuardian defined in CodeReadabilityAgent.md
 
-```
+```python
 export class ReadabilityGuardian {
     private diagnosticCollection: vscode.DiagnosticCollection;
 
@@ -92,6 +96,7 @@ export class ReadabilityGuardian {
 This agent structure integrates directly with VS Code diagnostics creating a soother experience when using it. The agent is able to automatically create tasks using the add_task mcp tool, and log the work done by using the log_work mcp tool.
 
 **3. GitHub Actions Integration**
+
 Moving to the CI\CD implementation, we create a Github Actions workflow:
 
 ```
@@ -130,9 +135,10 @@ jobs:
 This workflow allows for automatic quality checks on all PR's a user creates, not only providing a consistent CI\CD pipeline for deployment, but also granting a tracking of quality metrics to examine long-term trends.
 
 **4. Analysis Runner**
+
 Up next, we implement an Analysis Runner:
 
-```
+```python
 import asyncio
 from pathlib import Path
 from mcp.transport import Client
@@ -167,6 +173,7 @@ if __name__ == "__main__":
 This runner provides repo-wide analysis by iterating through each file, and using the mcp tools to analyze the files. Right now the implementation only has comment tracking, but the functionality can be expanded
 
 **5. Configuration**
+
 Finally, the agent configurations:
 
 ```
