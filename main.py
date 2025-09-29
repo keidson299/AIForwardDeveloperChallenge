@@ -133,12 +133,14 @@ async def log_work(work: WorkLog):
     log_file = "logs/work_log.json"
     current_time = datetime.now().isoformat()
     
+    logger.info("Creating work log entry")
     # Create new log entryo
     log_entry = {
         "timestamp": current_time,
         "description": work.description
     }
     
+    logger.info("Loading existing logs or creating new list")
     # Load existing logs or create new list
     if os.path.exists(log_file):
         with open(log_file, 'r') as f:
@@ -146,13 +148,16 @@ async def log_work(work: WorkLog):
     else:
         logs = []
         
+    logger.info("Appending new log entry")
     # Append new log
     logs.append(log_entry)
     
+    logger.info("Saving updated logs to file")
     # Save updated logs
     with open(log_file, 'w') as f:
         json.dump(logs, f, indent=2)
         
+    logger.info("Returning response")
     return WorkLogResponse(
         timestamp=current_time,
         description=work.description,
@@ -181,7 +186,7 @@ async def add_task(request: AddTaskRequest) -> TaskResponse:
         logger.info("Log file does not exist, creating new one")
         tasks = []
     
-    logger.info("Existing tasks loaded")
+    logger.info("Creating new task")
     # Generate new task ID
     task_id = len(tasks) + 1
     
@@ -218,12 +223,15 @@ async def list_tasks() -> TaskListResponse:
     """Returns a list of all tasks."""
     tasks_file = "tasks.json"
     
+    logger.info("Finding tasks")
     if not os.path.exists(tasks_file):
         return TaskListResponse(tasks=[])
     
+    logger.info("Loading tasks from file")
     with open(tasks_file, 'r') as f:
         tasks = json.load(f)
     
+    logger.info("Returning task list")
     return TaskListResponse(
         tasks=[Task(**task) for task in tasks]
     )
@@ -234,6 +242,7 @@ async def complete_task(request: CompleteTaskRequest) -> TaskResponse:
     tasks_file = "tasks.json"
     current_time = datetime.now().isoformat()
     
+    logger.info("Finding task file")
     if not os.path.exists(tasks_file):
         return TaskResponse(
             success=False,
@@ -241,19 +250,23 @@ async def complete_task(request: CompleteTaskRequest) -> TaskResponse:
             task=None
         )
     
+    logger.info("Loading tasks from file")
     with open(tasks_file, 'r') as f:
         tasks = json.load(f)
     
+    logger.info("Searching for task by ID")
     # Find task by ID
     task_found = False
     for task in tasks:
         if task["id"] == request.task_id:
             if task["status"] == TaskStatus.COMPLETED.value:
+                logger.info("Task already completed")
                 return TaskResponse(
                     success=False,
                     message="Task already completed",
                     task=Task(**task)
                 )
+            logger.info("Marking task as completed")
             task["status"] = TaskStatus.COMPLETED.value
             task["completed_at"] = current_time
             task_found = True
@@ -261,16 +274,19 @@ async def complete_task(request: CompleteTaskRequest) -> TaskResponse:
             break
     
     if not task_found:
+        logger.info("Task not found")
         return TaskResponse(
             success=False,
             message=f"Task with ID {request.task_id} not found",
             task=None
         )
     
+    logger.info("Task marked as completed, saving to file")
     # Save updated tasks
     with open(tasks_file, 'w') as f:
         json.dump(tasks, f, indent=2)
     
+    logger.info("Returning response")
     return TaskResponse(
         success=True,
         message=f"Task {request.task_id} marked as completed",
