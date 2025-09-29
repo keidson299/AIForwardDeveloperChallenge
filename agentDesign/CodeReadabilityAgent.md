@@ -19,8 +19,8 @@
 3. Creating tasks for identified readability issues
 4. Tracking completion of readability improvements
 
-### Tool Usage:
-**My workflow:**
+## Tool Usage:
+### My workflow:
 1. analyze_file: I scan files for comments, function structures, and TODOs
 2. log_work: I document readability improvements made
 3. add_task: I create tasks for needed improvements like:
