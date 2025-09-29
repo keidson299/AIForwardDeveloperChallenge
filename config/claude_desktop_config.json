@@ -2,7 +2,7 @@
   "mcpServers": {
     "simple-mcp-server": {
       "command": "python",
-      "args": ["path/to/file/support.py"]
+      "args": ["path/to/file/main.py"]
     }
   }
 }
