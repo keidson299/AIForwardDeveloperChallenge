@@ -1,0 +1,46 @@
+INFO:__main__:Starting MCP server...
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:__main__:Adding a new task to the list
+INFO:__main__:File exists
+INFO:__main__:Loading existing tasks
+INFO:__main__:Existing tasks loaded
+INFO:__main__:New Task created {'id': 1, 'title': 'Test task', 'status': 'pending', 'created_at': '2025-09-28T20:05:39.883968', 'completed_at': None}
+INFO:__main__:Appended new task to tasks list
+INFO:__main__:Wrote to file and returning response
+INFO:mcp.server.lowlevel.server:Processing request of type ListToolsRequest
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:__main__:Starting MCP server...
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:__main__:Adding a new task to the list
+INFO:__main__:File exists
+INFO:__main__:Loading existing tasks
+INFO:__main__:Existing tasks loaded
+INFO:__main__:New Task created {'id': 1, 'title': 'Test task', 'status': 'pending', 'created_at': '2025-09-28T20:06:23.150169', 'completed_at': None}
+INFO:__main__:Appended new task to tasks list
+INFO:__main__:Wrote to file and returning response
+INFO:mcp.server.lowlevel.server:Processing request of type ListToolsRequest
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:__main__:Starting MCP server...
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:__main__:Received analyze_file request: file_path='test_file.py'
+INFO:__main__:Content initialized
+INFO:__main__:Reading file from path: test_file.py
+INFO:__main__:File being analyzed
+INFO:mcp.server.lowlevel.server:Processing request of type ListToolsRequest
+INFO:__main__:Starting MCP server...
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:mcp.server.lowlevel.server:Processing request of type ListToolsRequest
+INFO:__main__:Starting MCP server...
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:__main__:Adding a new task to the list
+INFO:__main__:File exists
+INFO:__main__:Loading existing tasks
+INFO:__main__:Existing tasks loaded
+INFO:__main__:New Task created {'id': 1, 'title': 'Test task', 'status': 'pending', 'created_at': '2025-09-28T20:06:37.170269', 'completed_at': None}
+INFO:__main__:Appended new task to tasks list
+INFO:__main__:Wrote to file and returning response
+INFO:mcp.server.lowlevel.server:Processing request of type ListToolsRequest
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest
+INFO:mcp.server.lowlevel.server:Processing request of type CallToolRequest

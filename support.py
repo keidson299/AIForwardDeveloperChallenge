@@ -130,7 +130,7 @@ async def analyze_file(request: FileRequest) -> FileAnalysis:
 @app.tool()
 async def log_work(work: WorkLog):
     """Logs work with timestamp and description to a JSON file."""
-    log_file = "work_log.json"
+    log_file = "logs/work_log.json"
     current_time = datetime.now().isoformat()
     
     # Create new log entryo
@@ -164,14 +164,24 @@ async def add_task(request: AddTaskRequest) -> TaskResponse:
     """Adds a new task to the task list."""
     tasks_file = "tasks.json"
     current_time = datetime.now().isoformat()
+
+    logger.info("Adding a new task to the list")
     
     # Load existing tasks or create new list
     if os.path.exists(tasks_file):
+        logger.info("File exists")
         with open(tasks_file, 'r') as f:
-            tasks = json.load(f)
+            logger.info("Loading existing tasks")
+            try:
+                tasks = json.load(f)
+            except json.JSONDecodeError:
+                logger.info("JSON decode error, initializing empty tasks list")
+                tasks = []
     else:
+        logger.info("Log file does not exist, creating new one")
         tasks = []
     
+    logger.info("Existing tasks loaded")
     # Generate new task ID
     task_id = len(tasks) + 1
     
@@ -183,14 +193,20 @@ async def add_task(request: AddTaskRequest) -> TaskResponse:
         "created_at": current_time,
         "completed_at": None
     }
+
+    logger.info(f"New Task created {new_task}")
     
     # Add task to list
     tasks.append(new_task)
     
+    logger.info("Appended new task to tasks list")
+
     # Save updated tasks
     with open(tasks_file, 'w') as f:
         json.dump(tasks, f, indent=2)
     
+    logger.info("Wrote to file and returning response")
+
     return TaskResponse(
         success=True,
         message=f"Task '{request.title}' added successfully",
@@ -264,7 +280,7 @@ async def complete_task(request: CompleteTaskRequest) -> TaskResponse:
 if __name__ == "__main__":
     logger = logging.getLogger(__name__)
 
-    logging.basicConfig(filename="mcpServer.log", level=logging.INFO)
+    logging.basicConfig(filename="logs/mcpServer.log", level=logging.INFO)
 
     logger.info("Starting MCP server...")
     app.run(transport="stdio")

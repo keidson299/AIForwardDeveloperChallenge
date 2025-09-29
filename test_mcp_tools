@@ -52,7 +52,9 @@ async def test_task_management():
     client = Client("support.py")
     
     # Clear existing tasks
-    open("tasks.json", "w").close()
+    f = open("tasks.json", "w")
+    f.write("[]")
+    f.close()
 
     async with client:
       try:
