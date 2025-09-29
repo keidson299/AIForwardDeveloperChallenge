@@ -18,7 +18,6 @@
 4. Measuring and logging performance gains
 
 ## Tool Usage:
-
 ### My workflow:
 1. analyze_file: I examine code structure for optimization opportunities
 2. log_work: I document performance improvements and their impact
